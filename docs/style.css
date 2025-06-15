@@ -202,7 +202,7 @@ p {
 
 .main-header .nav-actions .cart-btn .fas.fa-shopping-cart {
     color: var(--white); /* Make cart icon visible on dark header */
-    font-size: 1.25rem;
+    font-size: 1.5rem; /* Increased size slightly for better visibility */
 }
 
 .search-btn,
@@ -214,6 +214,7 @@ p {
     font-size: 1.25rem;
     color: var(--white); /* Ensure icons are white */
     transition: color var(--transition-fast);
+    position: relative; /* Add this line to make it a positioning context for the counter */
 }
 
 .main-header .nav-actions .mobile-menu-toggle {
@@ -227,19 +228,20 @@ p {
 
 .cart-count {
     position: absolute;
-    top: -8px;
-    right: -8px;
+    top: -5px; /* Adjust as needed to position above the icon */
+    left: 50%; /* Center horizontally relative to the button */
+    transform: translateX(-50%); /* Adjust for its own width */
     background-color: var(--primary-color);
     color: var(--white);
     font-size: 0.75rem;
     padding: 2px 6px;
     border-radius: 50%;
-    display: flex;
+    display: none; /* Hide by default */
     align-items: center;
     justify-content: center;
     min-width: 20px; /* Ensure it's a circle even with single digit */
     height: 20px;
-    transform: scale(0.9); /* Slightly smaller than default */
+    /* transform: scale(0.9); REMOVED: This might interfere with centering */
     box-shadow: var(--shadow-sm); /* Subtle shadow for pop */
     z-index: 10;
 }
@@ -1569,4 +1571,134 @@ section h2 {
 
 .search-result-item .btn-add-cart:hover {
     background-color: var(--accent-color);
+}
+
+/* Cart Summary Styles */
+.cart-summary {
+    margin-top: 20px;
+    padding: 15px;
+    background: var(--background-dark);
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
+}
+
+.cart-summary .summary-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    color: var(--text-secondary);
+    font-size: 14px;
+}
+
+.cart-summary .summary-row.total {
+    color: var(--text-primary);
+    font-weight: 600;
+    font-size: 16px;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border-color);
+}
+
+.checkout-btn {
+    width: 100%;
+    padding: 15px;
+    margin-top: 15px;
+    background: var(--primary-color);
+    color: var(--white);
+    border: none;
+    border-radius: var(--border-radius);
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.checkout-btn:disabled {
+    background: var(--background-dark);
+    color: var(--text-secondary);
+    cursor: not-allowed;
+}
+
+.checkout-btn:not(:disabled):hover {
+    background: var(--accent-color);
+}
+
+.checkout-btn i {
+    font-size: 16px;
+}
+
+.empty-cart-message {
+    text-align: center;
+    color: var(--text-secondary);
+    padding: 20px;
+    font-style: italic;
+}
+
+/* Search Suggestions */
+.search-suggestions {
+    position: absolute;
+    top: 100%; /* Position below the search input */
+    left: 0;
+    right: 0;
+    background-color: var(--background-dark);
+    border: 1px solid var(--border-color);
+    border-top: none;
+    border-radius: 0 0 var(--border-radius) var(--border-radius);
+    max-height: 300px;
+    overflow-y: auto;
+    z-index: 10;
+    display: none; /* Hidden by default */
+    box-shadow: var(--shadow-lg);
+}
+
+.search-suggestions.active {
+    display: block;
+}
+
+.suggestion-item {
+    padding: 10px 15px;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.suggestion-item:last-child {
+    border-bottom: none;
+}
+
+.suggestion-item:hover {
+    background-color: var(--background-light);
+}
+
+.suggestion-item img {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: var(--border-radius);
+}
+
+.suggestion-item-details {
+    flex-grow: 1;
+}
+
+.suggestion-item-name {
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.suggestion-item-brand {
+    font-size: 0.8em;
+    color: var(--text-secondary);
+}
+
+.suggestion-item-price {
+    font-weight: 600;
+    color: var(--primary-color);
 } 

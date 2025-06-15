@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delivery Address - Faasos</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .address-form-container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background: var(--background-light);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .address-form-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .address-form-header h1 {
+            color: var(--text-primary);
+            margin-bottom: 10px;
+        }
+
+        .address-form-header p {
+            color: var(--text-secondary);
+        }
+
+        .address-form {
+            display: grid;
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-group label {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            background: var(--background-dark);
+            color: var(--text-primary);
+            font-size: 14px;
+            transition: var(--transition);
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            border-color: var(--primary-color);
+            outline: none;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .address-type-selector {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .address-type-btn {
+            flex: 1;
+            padding: 15px;
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius);
+            background: var(--background-dark);
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .address-type-btn.active {
+            border-color: var(--primary-color);
+            background: var(--primary-color);
+            color: var(--white);
+        }
+
+        .address-type-btn i {
+            font-size: 18px;
+        }
+
+        .saved-addresses {
+            margin-bottom: 30px;
+        }
+
+        .saved-address-card {
+            padding: 15px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .saved-address-card:hover {
+            border-color: var(--primary-color);
+        }
+
+        .saved-address-card.selected {
+            border-color: var(--primary-color);
+            background: rgba(var(--primary-color-rgb), 0.1);
+        }
+
+        .address-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .address-type {
+            font-size: 12px;
+            padding: 4px 8px;
+            border-radius: 4px;
+            background: var(--background-dark);
+            color: var(--text-secondary);
+        }
+
+        .address-details {
+            color: var(--text-secondary);
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .btn-back {
+            background: var(--background-dark);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-back:hover {
+            background: var(--background-light);
+        }
+
+        .btn-continue {
+            background: var(--primary-color);
+            color: var(--white);
+            border: none;
+        }
+
+        .btn-continue:hover {
+            background: var(--accent-color);
+        }
+
+        .btn-continue:disabled {
+            background: var(--background-dark);
+            color: var(--text-secondary);
+            cursor: not-allowed;
+        }
+
+        .location-picker {
+            position: relative;
+        }
+
+        .location-picker input {
+            padding-right: 40px;
+        }
+
+        .location-picker i {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary-color);
+            cursor: pointer;
+        }
+
+        .delivery-instructions {
+            margin-top: 20px;
+            padding: 15px;
+            background: var(--background-dark);
+            border-radius: var(--border-radius);
+        }
+
+        .delivery-instructions h3 {
+            color: var(--text-primary);
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .delivery-instructions p {
+            color: var(--text-secondary);
+            font-size: 14px;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="address-form-container">
+            <div class="address-form-header">
+                <h1>Delivery Address</h1>
+                <p>Please provide your delivery address to continue</p>
+            </div>
+
+            <div class="address-type-selector">
+                <button class="address-type-btn active" data-type="home">
+                    <i class="fas fa-home"></i>
+                    Home
+                </button>
+                <button class="address-type-btn" data-type="work">
+                    <i class="fas fa-briefcase"></i>
+                    Work
+                </button>
+                <button class="address-type-btn" data-type="other">
+                    <i class="fas fa-map-marker-alt"></i>
+                    Other
+                </button>
+            </div>
+
+            <div class="saved-addresses" id="saved-addresses">
+                <!-- Saved addresses will be populated here -->
+            </div>
+
+            <form id="address-form" class="address-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" name="phone" pattern="[0-9]{10}" required>
+                    </div>
+                </div>
+
+                <div class="form-group location-picker">
+                    <label for="address">Delivery Address</label>
+                    <input type="text" id="address" name="address" required>
+                    <i class="fas fa-map-marker-alt" id="use-location"></i>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="landmark">Landmark (Optional)</label>
+                        <input type="text" id="landmark" name="landmark" placeholder="e.g., Near Metro Station">
+                    </div>
+                    <div class="form-group">
+                        <label for="pincode">Pincode</label>
+                        <input type="text" id="pincode" name="pincode" pattern="[0-9]{6}" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="city">City</label>
+                        <input type="text" id="city" name="city" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="state">State</label>
+                        <input type="text" id="state" name="state" required>
+                    </div>
+                </div>
+
+                <div class="delivery-instructions">
+                    <h3><i class="fas fa-info-circle"></i> Delivery Instructions</h3>
+                    <p>Please ensure your address is accurate and complete. Our delivery partner will contact you if they need any clarification.</p>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn btn-back" onclick="window.history.back()">
+                        <i class="fas fa-arrow-left"></i> Back to Cart
+                    </button>
+                    <button type="submit" class="btn btn-continue" id="continue-btn">
+                        Continue to Payment <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Get order details from localStorage
+        const order = JSON.parse(localStorage.getItem('currentOrder')) || {};
+        
+        // Handle address type selection
+        const addressTypeBtns = document.querySelectorAll('.address-type-btn');
+        addressTypeBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                addressTypeBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            });
+        });
+
+        // Handle saved addresses
+        const savedAddresses = JSON.parse(localStorage.getItem('savedAddresses')) || [];
+        const savedAddressesContainer = document.getElementById('saved-addresses');
+
+        function displaySavedAddresses() {
+            if (savedAddresses.length > 0) {
+                savedAddressesContainer.innerHTML = `
+                    <h3>Saved Addresses</h3>
+                    ${savedAddresses.map((address, index) => `
+                        <div class="saved-address-card" data-index="${index}">
+                            <div class="address-card-header">
+                                <span class="address-type">
+                                    <i class="fas fa-${address.type === 'home' ? 'home' : address.type === 'work' ? 'briefcase' : 'map-marker-alt'}"></i>
+                                    ${address.type.charAt(0).toUpperCase() + address.type.slice(1)}
+                                </span>
+                            </div>
+                            <div class="address-details">
+                                <p><strong>${address.name}</strong> • ${address.phone}</p>
+                                <p>${address.address}</p>
+                                ${address.landmark ? `<p>Landmark: ${address.landmark}</p>` : ''}
+                                <p>Pincode: ${address.pincode}</p>
+                            </div>
+                        </div>
+                    `).join('')}
+                `;
+
+                // Add click handlers for saved addresses
+                document.querySelectorAll('.saved-address-card').forEach(card => {
+                    card.addEventListener('click', () => {
+                        document.querySelectorAll('.saved-address-card').forEach(c => c.classList.remove('selected'));
+                        card.classList.add('selected');
+                        const address = savedAddresses[card.dataset.index];
+                        fillAddressForm(address);
+                    });
+                });
+            } else {
+                savedAddressesContainer.style.display = 'none';
+            }
+        }
+
+        function fillAddressForm(address) {
+            document.getElementById('name').value = address.name;
+            document.getElementById('phone').value = address.phone;
+            document.getElementById('address').value = address.address;
+            document.getElementById('landmark').value = address.landmark || '';
+            document.getElementById('pincode').value = address.pincode;
+            
+            // Set address type
+            addressTypeBtns.forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.type === address.type);
+            });
+        }
+
+        // Handle form submission
+        const addressForm = document.getElementById('address-form');
+        addressForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const formData = new FormData(addressForm);
+            const addressData = {
+                type: document.querySelector('.address-type-btn.active').dataset.type,
+                name: formData.get('name'),
+                phone: formData.get('phone'),
+                address: formData.get('address'),
+                landmark: formData.get('landmark'),
+                pincode: formData.get('pincode'),
+                city: formData.get('city'),
+                state: formData.get('state')
+            };
+
+            console.log("Delivery Address Form Submission - addressData:", addressData);
+            console.log("Delivery Address Form Submission - currentOrder before update:", order);
+
+            // Save address if it's not already saved
+            if (!savedAddresses.some(addr => 
+                addr.name === addressData.name && 
+                addr.phone === addressData.phone && 
+                addr.address === addressData.address
+            )) {
+                savedAddresses.push(addressData);
+                localStorage.setItem('savedAddresses', JSON.stringify(savedAddresses));
+            }
+
+            // Update order with address
+            order.deliveryAddress = addressData;
+            localStorage.setItem('currentOrder', JSON.stringify(order));
+
+            // Redirect to payment page (or order tracking if no payment needed)
+            window.location.href = 'track-order.html';
+        });
+
+        // Handle location picker
+        const useLocationBtn = document.getElementById('use-location');
+        useLocationBtn.addEventListener('click', () => {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        // In a real app, you would use a geocoding service to get the address
+                        // For demo, we'll just show a message
+                        alert('Location detected! In a real app, this would fetch your address.');
+                    },
+                    (error) => {
+                        alert('Unable to get your location. Please enter address manually.');
+                    }
+                );
+            } else {
+                alert('Geolocation is not supported by your browser.');
+            }
+        });
+
+        // Initialize
+        displaySavedAddresses();
+    </script>
+</body>
+</html> 

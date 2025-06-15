@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Track Your Order - Faasos</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .order-tracking {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background: var(--background-light);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .order-status {
+            display: flex;
+            justify-content: space-between;
+            margin: 40px 0;
+            position: relative;
+        }
+
+        .order-status::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--border-color);
+            z-index: 1;
+        }
+
+        .status-step {
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            flex: 1;
+        }
+
+        .status-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--background-dark);
+            border: 2px solid var(--border-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 10px;
+            color: var(--text-secondary);
+        }
+
+        .status-step.active .status-icon {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+            color: var(--white);
+        }
+
+        .status-step.completed .status-icon {
+            background: var(--accent-color);
+            border-color: var(--accent-color);
+            color: var(--white);
+        }
+
+        .status-label {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .status-step.active .status-label,
+        .status-step.completed .status-label {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .order-details {
+            margin-top: 40px;
+            padding: 20px;
+            background: var(--background-dark);
+            border-radius: var(--border-radius);
+        }
+
+        .order-items {
+            margin: 20px 0;
+        }
+
+        .order-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .order-item:last-child {
+            border-bottom: none;
+        }
+
+        .order-item img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: var(--border-radius);
+        }
+
+        .order-item-details {
+            flex-grow: 1;
+        }
+
+        .order-item-name {
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .order-item-quantity {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .order-item-price {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .order-summary {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            color: var(--text-secondary);
+        }
+
+        .summary-row.total {
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 1.1em;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .estimated-delivery {
+            text-align: center;
+            margin: 20px 0;
+            padding: 15px;
+            background: var(--background-dark);
+            border-radius: var(--border-radius);
+            color: var(--text-primary);
+        }
+
+        .estimated-delivery i {
+            color: var(--primary-color);
+            margin-right: 8px;
+        }
+
+        .back-to-home {
+            display: block;
+            text-align: center;
+            margin-top: 30px;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .back-to-home:hover {
+            color: var(--accent-color);
+        }
+
+        .delivery-address {
+            margin: 20px 0;
+            padding: 20px;
+            background: var(--background-light);
+            border-radius: var(--border-radius);
+        }
+
+        .delivery-address h3 {
+            color: var(--text-primary);
+            margin-bottom: 15px;
+        }
+
+        .address-card {
+            background: var(--background-dark);
+            padding: 15px;
+            border-radius: var(--border-radius);
+            border: 1px solid var(--border-color);
+        }
+
+        .address-type {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 4px 8px;
+            background: var(--primary-color);
+            color: var(--white);
+            border-radius: 4px;
+            font-size: 12px;
+            margin-bottom: 10px;
+        }
+
+        .address-info {
+            color: var(--text-secondary);
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .address-info p {
+            margin: 5px 0;
+        }
+
+        .address-info strong {
+            color: var(--text-primary);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="order-tracking">
+            <h1>Track Your Order</h1>
+            
+            <div class="estimated-delivery">
+                <i class="fas fa-clock"></i> Estimated Delivery: <span id="estimated-delivery-time"></span>
+            </div>
+
+            <div class="order-status">
+                <div class="status-step completed">
+                    <div class="status-icon">
+                        <i class="fas fa-check"></i>
+                    </div>
+                    <div class="status-label">Order Placed</div>
+                </div>
+                <div class="status-step active">
+                    <div class="status-icon">
+                        <i class="fas fa-utensils"></i>
+                    </div>
+                    <div class="status-label">Preparing</div>
+                </div>
+                <div class="status-step">
+                    <div class="status-icon">
+                        <i class="fas fa-motorcycle"></i>
+                    </div>
+                    <div class="status-label">On the Way</div>
+                </div>
+                <div class="status-step">
+                    <div class="status-icon">
+                        <i class="fas fa-home"></i>
+                    </div>
+                    <div class="status-label">Delivered</div>
+                </div>
+            </div>
+
+            <div class="order-details">
+                <h2>Order Details</h2>
+                <div class="order-items" id="order-items">
+                    <!-- Order items will be populated by JavaScript -->
+                </div>
+                <div class="delivery-address">
+                    <h3>Delivery Address</h3>
+                    <div class="address-details">
+                        <!-- Address details will be populated here -->
+                    </div>
+                </div>
+                <div class="order-summary">
+                    <h3>Order Summary</h3>
+                    <div class="summary-row">
+                        <span>Items Total</span>
+                        <span id="items-total">₹0</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Delivery Fee</span>
+                        <span id="delivery-fee">₹0</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Taxes</span>
+                        <span id="taxes">₹0</span>
+                    </div>
+                    <div class="summary-row total">
+                        <span>Total Amount</span>
+                        <span id="total-amount">₹0</span>
+                    </div>
+                </div>
+            </div>
+
+            <a href="index.html" class="back-to-home">
+                <i class="fas fa-arrow-left"></i> Back to Home
+            </a>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js" defer></script>
+    <script src="track-order-script.js?v=202407261600" defer></script>
+</body>
+</html> 
