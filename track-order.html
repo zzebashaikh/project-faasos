@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Track Your Order</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background-dark);
+            color: var(--text-primary);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            align-items: center;
+            justify-content: center;
+            padding: var(--spacing-xl);
+        }
+        .track-container {
+            background-color: var(--background-light);
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-lg);
+            padding: var(--spacing-xl);
+            text-align: center;
+            max-width: 600px;
+            width: 100%;
+        }
+        .track-container h1 {
+            color: var(--primary-color);
+            font-size: 2.5rem;
+            margin-bottom: var(--spacing-lg);
+        }
+        .status-tracker {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin: var(--spacing-xl) 0;
+            position: relative;
+        }
+        .status-tracker::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 5%;
+            right: 5%;
+            height: 4px;
+            background-color: var(--text-secondary);
+            z-index: 0;
+        }
+        .status-step {
+            flex: 1;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+        .status-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--background-dark);
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 10px;
+            font-size: 1.2rem;
+            border: 2px solid var(--text-secondary);
+            transition: all 0.3s ease;
+        }
+        .status-step.completed .status-icon {
+            background-color: var(--primary-color);
+            color: var(--white);
+            border-color: var(--primary-color);
+        }
+        .status-step h3 {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 5px;
+        }
+        .status-step.completed h3 {
+            color: var(--text-primary);
+        }
+        .estimated-time {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+        .order-details {
+            margin-top: var(--spacing-xl);
+            border-top: 1px solid var(--border-color);
+            padding-top: var(--spacing-lg);
+            text-align: left;
+        }
+        .order-details p {
+            margin-bottom: var(--spacing-sm);
+            color: var(--text-secondary);
+        }
+        .order-details strong {
+            color: var(--text-primary);
+        }
+        .back-home-btn {
+            margin-top: var(--spacing-xl);
+        }
+    </style>
+</head>
+<body>
+    <div class="track-container">
+        <h1>Track Your Order</h1>
+        <p>Order ID: <strong>#RF20240012345</strong></p>
+
+        <div class="status-tracker">
+            <div class="status-step completed">
+                <div class="status-icon"><i class="fas fa-check"></i></div>
+                <h3>Order Confirmed</h3>
+                <span class="estimated-time">5 mins ago</span>
+            </div>
+            <div class="status-step">
+                <div class="status-icon"><i class="fas fa-utensils"></i></div>
+                <h3>Preparing Food</h3>
+                <span class="estimated-time">Est. 10-15 mins</span>
+            </div>
+            <div class="status-step">
+                <div class="status-icon"><i class="fas fa-motorcycle"></i></div>
+                <h3>Out for Delivery</h3>
+                <span class="estimated-time">Est. 5-10 mins</span>
+            </div>
+            <div class="status-step">
+                <div class="status-icon"><i class="fas fa-home"></i></div>
+                <h3>Delivered</h3>
+                <span class="estimated-time">Soon</span>
+            </div>
+        </div>
+
+        <div class="order-details">
+            <h2>Order Summary</h2>
+            <p><strong>Total Items:</strong> 3</p>
+            <p><strong>Amount Paid:</strong> ₹699.00</p>
+            <p><strong>Delivery Address:</strong> 123, Cloud Kitchen Lane, Food City - 123456</p>
+            <p><strong>Payment Method:</strong> Credit Card</p>
+        </div>
+
+        <a href="index.html" class="btn primary back-home-btn">Back to Home</a>
+    </div>
+</body>
+</html> 

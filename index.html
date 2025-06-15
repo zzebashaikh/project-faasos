@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rebel Foods - World's Largest Chain of Internet Restaurants</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <!-- Header -->
+    <header class="main-header">
+        <nav class="navbar">
+            <div class="logo">
+                <a href="#" class="logo-text">REBEL FOODS</a>
+            </div>
+            <div class="nav-links">
+                <a href="#brands" class="nav-link">Our Brands</a>
+                <a href="#about" class="nav-link">About Us</a>
+                <a href="#careers" class="nav-link">Careers</a>
+                <a href="#franchise" class="nav-link">Franchise</a>
+            </div>
+            <div class="nav-actions">
+                <button class="search-btn">
+                    <i class="fas fa-search"></i>
+                </button>
+                <button class="cart-btn">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count">0</span>
+                </button>
+                <button class="menu-btn">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Search Overlay -->
+    <div class="search-overlay">
+        <div class="search-container">
+            <div class="search-header">
+                <input type="text" class="search-input" placeholder="Search for food, brands, or cuisines...">
+                <button class="close-search">&times;</button>
+            </div>
+            <div class="search-filters">
+                <div class="filter-group">
+                    <h4>Diet Preferences</h4>
+                    <div class="filter-chips">
+                        <button class="filter-chip" data-filter="keto">Keto</button>
+                        <button class="filter-chip" data-filter="vegan">Vegan</button>
+                        <button class="filter-chip" data-filter="gluten-free">Gluten-Free</button>
+                    </div>
+                </div>
+                <div class="filter-group">
+                    <h4>Price Range</h4>
+                    <div class="filter-chips">
+                        <button class="filter-chip" data-price="0-200">Under ₹200</button>
+                        <button class="filter-chip" data-price="200-400">₹200 - ₹400</button>
+                        <button class="filter-chip" data-price="400+">Above ₹400</button>
+                    </div>
+                </div>
+                <div class="filter-group">
+                    <h4>Delivery Time</h4>
+                    <div class="filter-chips">
+                        <button class="filter-chip" data-time="30">Under 30 mins</button>
+                        <button class="filter-chip" data-time="45">Under 45 mins</button>
+                    </div>
+                </div>
+            </div>
+            <div class="search-results">
+                <!-- Results will be populated dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Excellent Food Meets Great Tech</h1>
+            <p>The world's largest chain of internet restaurants powered by an operating system for building and scaling brands globally.</p>
+            <div class="hero-buttons">
+                <a href="#brands" class="btn primary">Explore Brands</a>
+                <a href="#franchise" class="btn secondary">Join Our Network</a>
+            </div>
+        </div>
+        <div class="hero-image">
+            <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1200&auto=format&fit=crop&q=80" alt="Rebel Foods Hero Image" loading="lazy">
+        </div>
+    </section>
+
+    <!-- Top Picks Section -->
+    <section class="top-picks-section">
+        <div class="container">
+            <h2>Top Picks</h2>
+            <div class="picks-grid">
+                <div class="pick-card" data-aos="fade-up">
+                    <div class="pick-image">
+                        <img src="https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=500&auto=format&fit=crop&q=60" alt="Behrouz Biryani">
+                        <div class="pick-badge">Bestseller</div>
+                    </div>
+                    <div class="pick-content">
+                        <h3>Behrouz Biryani</h3>
+                        <p>Premium Hyderabadi Biryani</p>
+                        <div class="pick-meta">
+                            <span class="pick-rating">⭐ 4.8</span>
+                            <span class="pick-time">30-35 min</span>
+                        </div>
+                        <div class="pick-price">
+                            <span class="original-price">₹399</span>
+                            <span class="discounted-price">₹299</span>
+                            <span class="discount-tag">25% OFF</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="pick-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="pick-image">
+                        <img src="https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?w=500&auto=format&fit=crop&q=60" alt="Oven Story Pizza">
+                        <div class="pick-badge">New Launch</div>
+                    </div>
+                    <div class="pick-content">
+                        <h3>Oven Story Pizza</h3>
+                        <p>Artisanal Wood-Fired Pizza</p>
+                        <div class="pick-meta">
+                            <span class="pick-rating">⭐ 4.7</span>
+                            <span class="pick-time">25-30 min</span>
+                        </div>
+                        <div class="pick-price">
+                            <span class="original-price">₹499</span>
+                            <span class="discounted-price">₹399</span>
+                            <span class="discount-tag">20% OFF</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="pick-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="pick-image">
+                        <img src="https://images.unsplash.com/photo-1562967914-608f82629710?w=500&auto=format&fit=crop&q=60" alt="Faasos Wrap">
+                        <div class="pick-badge">Popular</div>
+                    </div>
+                    <div class="pick-content">
+                        <h3>Faasos Wrap</h3>
+                        <p>Signature Chicken Tikka Wrap</p>
+                        <div class="pick-meta">
+                            <span class="pick-rating">⭐ 4.6</span>
+                            <span class="pick-time">20-25 min</span>
+                        </div>
+                        <div class="pick-price">
+                            <span class="original-price">₹249</span>
+                            <span class="discounted-price">₹199</span>
+                            <span class="discount-tag">20% OFF</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Daily Combos Section -->
+    <section class="combos-section">
+        <div class="container">
+            <h2>Daily Combos</h2>
+            <div class="combos-grid">
+                <div class="combo-card" data-aos="fade-up">
+                    <div class="combo-image">
+                        <img src="https://images.unsplash.com/photo-1590301157890-4810ed352733?w=500&auto=format&fit=crop&q=60" alt="Family Feast">
+                        <div class="combo-badge">Best Value</div>
+                    </div>
+                    <div class="combo-content">
+                        <h3>Family Feast</h3>
+                        <p>Biryani + Pizza + 2 Wraps</p>
+                        <div class="combo-meta">
+                            <span class="combo-rating">⭐ 4.9</span>
+                            <span class="combo-time">35-40 min</span>
+                        </div>
+                        <div class="combo-price">
+                            <span class="original-price">₹999</span>
+                            <span class="discounted-price">₹699</span>
+                            <span class="discount-tag">30% OFF</span>
+                        </div>
+                        <button class="btn primary add-to-cart-btn" data-combo-id="combo1">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="combo-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="combo-image">
+                        <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500&auto=format&fit=crop&q=60" alt="Quick Bite">
+                        <div class="combo-badge">Popular</div>
+                    </div>
+                    <div class="combo-content">
+                        <h3>Quick Bite</h3>
+                        <p>Wrap + Fries + Drink</p>
+                        <div class="combo-meta">
+                            <span class="combo-rating">⭐ 4.7</span>
+                            <span class="combo-time">25-30 min</span>
+                        </div>
+                        <div class="combo-price">
+                            <span class="original-price">₹399</span>
+                            <span class="discounted-price">₹299</span>
+                            <span class="discount-tag">25% OFF</span>
+                        </div>
+                        <button class="btn primary add-to-cart-btn" data-combo-id="combo2">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Subscription Banner -->
+    <section class="subscription-banner">
+        <div class="container">
+            <div class="subscription-content">
+                <div class="subscription-text">
+                    <h2>Unlimited Free Delivery</h2>
+                    <p>Subscribe for just ₹99/month and enjoy free delivery on all orders!</p>
+                    <ul class="subscription-benefits">
+                        <li><i class="fas fa-check"></i> Free delivery on all orders</li>
+                        <li><i class="fas fa-check"></i> Priority customer support</li>
+                        <li><i class="fas fa-check"></i> Exclusive member discounts</li>
+                    </ul>
+                    <button class="btn primary">Subscribe Now</button>
+                </div>
+                <div class="subscription-image">
+                    <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&auto=format&fit=crop&q=80" alt="Subscription Benefits">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Kitchen Hygiene Section -->
+    <section class="hygiene-section">
+        <div class="container">
+            <div class="hygiene-content">
+                <div class="hygiene-stats">
+                    <div class="stat-card">
+                        <i class="fas fa-shield-alt"></i>
+                        <h3>5-Star Hygiene Rating</h3>
+                        <p>Certified by Food Safety Authority</p>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-clock"></i>
+                        <h3>30-Min Delivery Guarantee</h3>
+                        <p>Or get your next order free</p>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-utensils"></i>
+                        <h3>Cloud Kitchen Network</h3>
+                        <p>1000+ kitchens across India</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Brands Section -->
+    <section id="brands" class="brands">
+        <div class="container">
+            <h2>Our Brands</h2>
+            <div class="brand-tabs">
+                <div class="tab-buttons">
+                    <button class="tab-btn active" data-brand="faasos">
+                        <i class="fas fa-utensils brand-icon"></i>
+                        Faasos
+                    </button>
+                    <button class="tab-btn" data-brand="behrouz">
+                        <i class="fas fa-fire brand-icon"></i>
+                        Behrouz
+                    </button>
+                    <button class="tab-btn" data-brand="oven-story">
+                        <i class="fas fa-pizza-slice brand-icon"></i>
+                        Oven Story
+                    </button>
+                    <button class="tab-btn" data-brand="mandarin">
+                        <i class="fas fa-drumstick-bite brand-icon"></i>
+                        Mandarin Oak
+                    </button>
+                </div>
+                
+                <div class="tab-content">
+                    <!-- Faasos Menu -->
+                    <div class="menu-section active" id="faasos-menu">
+                        <div class="menu-filters">
+                            <button class="filter-btn active" data-filter="all">All</button>
+                            <button class="filter-btn" data-filter="veg">Veg</button>
+                            <button class="filter-btn" data-filter="non-veg">Non-Veg</button>
+                            <button class="filter-btn" data-filter="combo">Combos</button>
+                        </div>
+                        <div class="menu-items">
+                            <!-- Menu items will be populated dynamically -->
+                        </div>
+                    </div>
+
+                    <!-- Behrouz Menu -->
+                    <div class="menu-section" id="behrouz-menu">
+                        <div class="menu-filters">
+                            <button class="filter-btn active" data-filter="all">All</button>
+                            <button class="filter-btn" data-filter="veg">Veg</button>
+                            <button class="filter-btn" data-filter="non-veg">Non-Veg</button>
+                        </div>
+                        <div class="menu-items">
+                            <!-- Menu items will be populated dynamically -->
+                        </div>
+                    </div>
+
+                    <!-- Oven Story Menu -->
+                    <div class="menu-section" id="oven-story-menu">
+                        <div class="menu-filters">
+                            <button class="filter-btn active" data-filter="all">All</button>
+                            <button class="filter-btn" data-filter="veg">Veg</button>
+                            <button class="filter-btn" data-filter="non-veg">Non-Veg</button>
+                            <button class="filter-btn" data-filter="pizza">Pizza</button>
+                        </div>
+                        <div class="menu-items">
+                            <!-- Menu items will be populated dynamically -->
+                        </div>
+                    </div>
+
+                    <!-- Mandarin Oak Menu -->
+                    <div class="menu-section" id="mandarin-menu">
+                        <div class="menu-filters">
+                            <button class="filter-btn active" data-filter="all">All</button>
+                            <button class="filter-btn" data-filter="veg">Veg</button>
+                            <button class="filter-btn" data-filter="non-veg">Non-Veg</button>
+                            <button class="filter-btn" data-filter="chinese">Chinese</button>
+                        </div>
+                        <div class="menu-items">
+                            <!-- Menu items will be populated dynamically -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Us Section -->
+    <section id="about" class="about-section">
+        <div class="container">
+            <h2>About Rebel Foods</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p class="lead">We are the world's largest chain of internet restaurants, operating in over 40 cities across India and the UAE.</p>
+                    <div class="about-stats">
+                        <div class="stat-item">
+                            <span class="stat-number">40+</span>
+                            <span class="stat-label">Cities</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">10+</span>
+                            <span class="stat-label">Brands</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">1000+</span>
+                            <span class="stat-label">Cloud Kitchens</span>
+                        </div>
+                    </div>
+                    <p>Founded in 2011, Rebel Foods has revolutionized the food industry by creating a unique operating system that enables us to build and scale multiple food brands from the same kitchen infrastructure. Our mission is to provide high-quality, delicious food at affordable prices, delivered quickly to our customers.</p>
+                    <div class="about-features">
+                        <div class="feature">
+                            <i class="fas fa-utensils"></i>
+                            <h3>Quality Food</h3>
+                            <p>We maintain the highest standards of food quality and safety across all our brands.</p>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-rocket"></i>
+                            <h3>Quick Delivery</h3>
+                            <p>Our efficient delivery system ensures your food reaches you hot and fresh.</p>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-leaf"></i>
+                            <h3>Sustainable</h3>
+                            <p>We're committed to sustainable practices and reducing our environmental impact.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-image">
+                    <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&auto=format&fit=crop&q=80" alt="Rebel Foods Kitchen" loading="lazy">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Franchise Section -->
+    <section id="franchise" class="franchise-section">
+        <div class="container">
+            <h2>Join Our Network</h2>
+            <div class="franchise-content">
+                <div class="franchise-text">
+                    <h3>Own a Rebel Foods Franchise</h3>
+                    <p class="lead">Be part of the world's largest chain of internet restaurants. We offer a proven business model with comprehensive support.</p>
+                    <div class="franchise-benefits">
+                        <div class="benefit">
+                            <i class="fas fa-chart-line"></i>
+                            <h4>Proven Business Model</h4>
+                            <p>Access to our successful operating system and established brands</p>
+                        </div>
+                        <div class="benefit">
+                            <i class="fas fa-tools"></i>
+                            <h4>Complete Support</h4>
+                            <p>Training, technology, and operational support provided</p>
+                        </div>
+                        <div class="benefit">
+                            <i class="fas fa-handshake"></i>
+                            <h4>Brand Recognition</h4>
+                            <p>Leverage our strong brand presence and customer base</p>
+                        </div>
+                    </div>
+                    <form id="franchise-form" class="franchise-form">
+                        <h4>Interested in Franchising?</h4>
+                        <div class="form-group">
+                            <input type="text" id="name" name="name" placeholder="Your Name" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" id="email" name="email" placeholder="Email Address" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="tel" id="phone" name="phone" placeholder="Phone Number" required>
+                        </div>
+                        <div class="form-group">
+                            <select id="city" name="city" required>
+                                <option value="">Select City</option>
+                                <option value="mumbai">Mumbai</option>
+                                <option value="delhi">Delhi</option>
+                                <option value="bangalore">Bangalore</option>
+                                <option value="hyderabad">Hyderabad</option>
+                                <option value="chennai">Chennai</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <textarea id="message" name="message" placeholder="Tell us about your interest" required></textarea>
+                        </div>
+                        <button type="submit" class="btn primary">Submit Application</button>
+                    </form>
+                </div>
+                <div class="franchise-image">
+                    <img src="https://images.unsplash.com/photo-1556911220-bff31c812dba?w=800&auto=format&fit=crop&q=80" alt="Franchise Opportunity" loading="lazy">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Careers Section -->
+    <section id="careers" class="careers-section">
+        <div class="container">
+            <h2>Join Our Team</h2>
+            <div class="careers-content">
+                <div class="careers-intro">
+                    <p class="lead">Be part of a team that's revolutionizing the food industry. We're always looking for passionate individuals to join our journey.</p>
+                    <div class="careers-stats">
+                        <div class="stat-item">
+                            <span class="stat-number">5000+</span>
+                            <span class="stat-label">Employees</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">40+</span>
+                            <span class="stat-label">Cities</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">100+</span>
+                            <span class="stat-label">Open Positions</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="job-categories">
+                    <div class="category">
+                        <i class="fas fa-utensils"></i>
+                        <h3>Kitchen Operations</h3>
+                        <p>Join our kitchen teams and be part of creating amazing food experiences.</p>
+                        <a href="#kitchen-jobs" class="btn secondary">View Positions</a>
+                    </div>
+                    <div class="category">
+                        <i class="fas fa-laptop-code"></i>
+                        <h3>Technology</h3>
+                        <p>Help us build and scale our technology platform.</p>
+                        <a href="#tech-jobs" class="btn secondary">View Positions</a>
+                    </div>
+                    <div class="category">
+                        <i class="fas fa-chart-bar"></i>
+                        <h3>Business Operations</h3>
+                        <p>Drive growth and efficiency across our operations.</p>
+                        <a href="#business-jobs" class="btn secondary">View Positions</a>
+                    </div>
+                </div>
+                <div class="current-openings">
+                    <h3>Current Openings</h3>
+                    <div class="job-listings">
+                        <div class="job-card">
+                            <h4>Kitchen Manager</h4>
+                            <p class="location"><i class="fas fa-map-marker-alt"></i> Mumbai</p>
+                            <p class="type"><i class="fas fa-briefcase"></i> Full-time</p>
+                            <a href="#apply" class="btn primary">Apply Now</a>
+                        </div>
+                        <div class="job-card">
+                            <h4>Software Engineer</h4>
+                            <p class="location"><i class="fas fa-map-marker-alt"></i> Bangalore</p>
+                            <p class="type"><i class="fas fa-briefcase"></i> Full-time</p>
+                            <a href="#apply" class="btn primary">Apply Now</a>
+                        </div>
+                        <div class="job-card">
+                            <h4>Operations Manager</h4>
+                            <p class="location"><i class="fas fa-map-marker-alt"></i> Delhi</p>
+                            <p class="type"><i class="fas fa-briefcase"></i> Full-time</p>
+                            <a href="#apply" class="btn primary">Apply Now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cart Sidebar -->
+    <div class="cart-sidebar">
+        <div class="cart-header">
+            <h3>Your Cart</h3>
+            <button class="close-cart" aria-label="Close cart">&times;</button>
+        </div>
+        <div class="cart-items">
+            <!-- Cart items will be added here dynamically -->
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total:</span>
+                <span class="total-amount">₹0</span>
+            </div>
+            <button class="btn primary checkout-btn" disabled>
+                <i class="fas fa-lock"></i> Checkout
+            </button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Our Brands</h4>
+                    <a href="#faasos">Faasos</a>
+                    <a href="#behrouz">Behrouz</a>
+                    <a href="#oven-story">Oven Story</a>
+                    <a href="#mandarin">Mandarin Oak</a>
+                </div>
+                <div class="footer-section">
+                    <h4>Company</h4>
+                    <a href="#about">About Us</a>
+                    <a href="#careers">Careers</a>
+                    <a href="#franchise">Franchise</a>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect With Us</h4>
+                    <div class="social-links">
+                        <a href="https://www.facebook.com/RebelFoods/" target="_blank"><i class="fab fa-facebook"></i></a>
+                        <a href="https://www.instagram.com/rebelfoods/" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="https://twitter.com/RebelFoods" target="_blank"><i class="fab fa-twitter"></i></a>
+                        <a href="https://www.linkedin.com/company/rebel-foods/" target="_blank"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Rebel Foods. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Initialize AOS -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            AOS.init({
+                duration: 800,
+                once: true
+            });
+            // Force menu initialization
+            if (typeof initializeMenu === 'function') {
+                initializeMenu();
+            }
+        });
+    </script>
+</body>
+</html>
