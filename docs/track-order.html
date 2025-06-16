@@ -259,33 +259,35 @@
 
             <div class="order-details">
                 <h2>Order Details</h2>
-                <div class="order-items" id="order-items">
-                    <!-- Order items will be populated by JavaScript -->
+                <div class="order-items">
+                    <!-- Order items will be populated dynamically -->
                 </div>
+            </div>
+
                 <div class="delivery-address">
                     <h3>Delivery Address</h3>
-                    <div class="address-details">
-                        <!-- Address details will be populated here -->
-                    </div>
+                <div class="address-card">
+                    <!-- Delivery address will be populated dynamically -->
                 </div>
+            </div>
+
                 <div class="order-summary">
-                    <h3>Order Summary</h3>
-                    <div class="summary-row">
+                <h2>Order Summary</h2>
+                <div class="summary-row items-total">
                         <span>Items Total</span>
-                        <span id="items-total">₹0</span>
+                    <span>₹0</span>
                     </div>
-                    <div class="summary-row">
+                <div class="summary-row delivery-fee">
                         <span>Delivery Fee</span>
-                        <span id="delivery-fee">₹0</span>
+                    <span>₹0</span>
                     </div>
-                    <div class="summary-row">
+                <div class="summary-row taxes">
                         <span>Taxes</span>
-                        <span id="taxes">₹0</span>
+                    <span>₹0</span>
                     </div>
                     <div class="summary-row total">
                         <span>Total Amount</span>
-                        <span id="total-amount">₹0</span>
-                    </div>
+                    <span class="total-amount">₹0</span>
                 </div>
             </div>
 
@@ -295,7 +297,163 @@
         </div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js" defer></script>
-    <script src="track-order-script.js?v=202407261600" defer></script>
+    <script>
+        // Re-declare menuData and helper functions needed for this page
+        const menuData = {
+            faasos: [
+                { id: 'f1', name: 'Chicken Tikka Wrap', description: 'Succulent chicken tikka wrapped in a soft roti with fresh veggies', price: 199, category: 'non-veg', image: 'https://b.zmtcdn.com/data/pictures/chains/0/37750/5fe78176d3acf65c617ceddeac7ffb28.jpg?fit=around|960:500&crop=960:500;*,*', badges: ['Bestseller', 'Spicy'], diet: ['Regular'], rating: 4.5, deliveryTime: '25-30 min' },
+                { id: 'f2', name: 'Paneer Tikka Wrap', description: 'Grilled paneer tikka wrapped in a soft roti with fresh veggies', price: 179, category: 'veg', image: 'https://static.india.com/wp-content/uploads/2024/10/FEATURE-2024-10-21T050557.205.jpg?impolicy=Medium_Widthonly&w=350&h=263', badges: ['Bestseller', 'Spicy'], diet: ['Regular'], rating: 4.3, deliveryTime: '25-30 min' },
+                { id: 'f3', name: 'Wrap Combo', description: '2 wraps of your choice with fries and a drink', price: 299, category: 'combo', image: 'https://cdn.uengage.io/uploads/49314/image-444565-1740756080.jpeg', badges: ['Combo', 'Value'], diet: ['Regular'], rating: 4.4, deliveryTime: '30-35 min' }
+            ],
+            behrouz: [
+                { id: 'b1', name: 'Chicken Biryani', description: 'Fragrant basmati rice cooked with tender chicken and aromatic spices', price: 249, category: 'non-veg', image: 'https://www.cubesnjuliennes.com/wp-content/uploads/2020/07/Chicken-Biryani-Recipe.jpg', badges: ['Bestseller', 'Spicy'], diet: ['Regular'], rating: 4.7, deliveryTime: '30-35 min' },
+                { id: 'b2', name: 'Veg Biryani', description: 'Fragrant basmati rice with mixed vegetables and aromatic spices', price: 249, category: 'veg', image: 'https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=500&auto=format&fit=crop&q=60', badges: ['Popular'], diet: 'vegan', deliveryTime: '30 min' },
+                { id: 'b3', name: 'Family Pack Biryani', description: 'Large portion of biryani perfect for 4-5 people', price: 599, category: 'combo', image: 'https://kadhaikhana.com/wp-content/uploads/2023/05/Chicken-dum-Biryani-family-pack.webp', badges: ['Family Pack', 'Bestseller'], diet: ['Regular'], rating: 4.6, deliveryTime: '35-40 min' }
+            ],
+            'oven-story': [
+                { id: 'o1', name: 'Margherita Pizza', description: 'Classic pizza with tomato sauce, mozzarella cheese and fresh basil', price: 199, category: 'veg', image: 'https://cdn.shopify.com/s/files/1/0274/9503/9079/files/20220211142754-margherita-9920_5a73220e-4a1a-4d33-b38f-26e98e3cd986.jpg?v=1723650067', badges: ['Bestseller', 'Classic'], diet: ['Vegetarian'], rating: 4.5, deliveryTime: '25-30 min' },
+                { id: 'o2', name: 'Pepperoni Pizza', description: 'Pepperoni, mozzarella, and tomato sauce', price: 349, category: 'non-veg', image: 'https://images.unsplash.com/photo-1628840042765-356cda07504e?w=500&auto=format&fit=crop&q=60', badges: ['Popular'], diet: 'keto', deliveryTime: '30 min' },
+                { id: 'o3', name: 'Veggie Supreme Pizza', description: 'Loaded with bell peppers, onions, mushrooms, olives and tomatoes', price: 249, category: 'veg', image: 'https://www.thursdaynightpizza.com/wp-content/uploads/2022/06/veggie-pizza-overhead-sliced-720x900.png', badges: ['Popular', 'Loaded'], diet: ['Vegetarian'], rating: 4.6, deliveryTime: '25-30 min' }
+            ],
+            mandarin: [
+                { id: 'm1', name: 'Veg Hakka Noodles', description: 'Stir-fried noodles with fresh vegetables and sauces', price: 249, category: 'veg', image: 'https://images.unsplash.com/photo-1585032226651-759b368d7246?w=500&auto=format&fit=crop&q=60', badges: ['Noodles'], diet: 'vegan', deliveryTime: '20 min' },
+                { id: 'm2', name: 'Chicken Manchurian', description: 'Chicken balls in spicy Manchurian sauce', price: 299, category: 'non-veg', image: 'https://mostlymasala.com/wp-content/uploads/2021/12/2F7CFC73-F617-467A-BB4A-F35D7BB1E339-500x500.jpeg', badges: ['Popular'], diet: 'keto', deliveryTime: '25 min' },
+                { id: 'm3', name: 'Spring Rolls', description: 'Crispy rolls stuffed with veggies and served with dip', price: 349, category: 'chinese', image: 'https://b2b.chickenofthesea.com/wp-content/uploads/2022/06/food-service-recipes-Crispy-Fried-Crab-Spring-Rolls.jpg', badges: ['Starter'], diet: 'vegan', deliveryTime: '30 min' }
+            ],
+            combos: [
+                { id: 'combo1', name: 'Family Feast', description: 'Biryani + Pizza + 2 Wraps', price: 699, originalPrice: 999, category: 'combo', image: 'https://img.cdn4dd.com/cdn-cgi/image/fit=cover,width=600,height=400,format=auto,quality=80/https://doordash-static.s3.amazonaws.com/media/store/header/f3ee2199-2cff-43d5-bb62-15cb0e6071f2.jpg', badges: ['Best Value'], items: [{ id: 'b1', quantity: 1 }, { id: 'o1', quantity: 1 }, { id: 'f1', quantity: 2 }], deliveryTime: '35-40 min' },
+                { id: 'combo2', name: 'Quick Bite', description: 'Wrap + Fries + Drink', price: 299, originalPrice: 399, category: 'combo', image: 'https://b.zmtcdn.com/data/dish_photos/1ba/f4917f9b32490ed1c1f79f190b0ef1ba.jpeg', badges: ['Popular'], items: [{ id: 'f1', quantity: 1 }, { id: 'f3', quantity: 1 }], deliveryTime: '25-30 min' }
+            ]
+        };
+
+        function findMenuItem(itemId) {
+            for (const brand in menuData) {
+                const item = menuData[brand].find(item => item.id === itemId);
+                if (item) {
+                    return item;
+                }
+            }
+            return null;
+        }
+
+        function calculateCartTotals(cartItems) {
+            let subtotal = 0;
+            let totalItems = 0;
+            
+            cartItems.forEach(item => {
+                subtotal += item.price * item.quantity;
+                totalItems += item.quantity;
+            });
+            
+            const deliveryFee = 40;
+            const taxes = Math.round(subtotal * 0.05); // 5% tax
+            const total = subtotal + deliveryFee + taxes;
+            
+            return {
+                subtotal,
+                deliveryFee,
+                taxes,
+                total,
+                totalItems
+            };
+        }
+
+        function calculateEstimatedDeliveryTime(cartItems) {
+            let maxTime = 0;
+            cartItems.forEach(item => {
+                if (item.deliveryTime) {
+                    const timeParts = item.deliveryTime.match(/(\d+)-?(\d+)?\s*min/);
+                    if (timeParts) {
+                        const upperEstimate = parseInt(timeParts[2] || timeParts[1]);
+                        if (!isNaN(upperEstimate) && upperEstimate > maxTime) {
+                            maxTime = upperEstimate;
+                        }
+                    }
+                }
+            });
+            if (maxTime > 0) {
+                const estimatedRange = `${maxTime - 5}-${maxTime} min`;
+                return estimatedRange;
+            } else {
+                return '30-45 min'; // Default estimate
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const order = JSON.parse(localStorage.getItem('currentOrder')) || {};
+            const cart = order.items || []; // Use order.items here
+            const orderItemsContainer = document.querySelector('.order-items');
+            const totalAmountSpan = document.querySelector('.summary-row.total .total-amount');
+            const itemsTotalSpan = document.querySelector('.summary-row.items-total span:last-child');
+            const deliveryFeeSpan = document.querySelector('.summary-row.delivery-fee span:last-child');
+            const taxesSpan = document.querySelector('.summary-row.taxes span:last-child');
+            const estimatedDeliveryTimeSpan = document.getElementById('estimated-delivery-time');
+            const deliveryAddressCard = document.querySelector('.address-card');
+            const backToHomeBtn = document.querySelector('.back-to-home');
+
+            if (cart.length === 0) {
+                orderItemsContainer.innerHTML = '<p>No items in your order.</p>';
+                estimatedDeliveryTimeSpan.textContent = 'N/A';
+                totalAmountSpan.textContent = '₹0';
+                itemsTotalSpan.textContent = '₹0';
+                deliveryFeeSpan.textContent = '₹0';
+                taxesSpan.textContent = '₹0';
+                if (deliveryAddressCard) {
+                    deliveryAddressCard.innerHTML = '<p>No delivery address provided.</p>';
+                }
+                return;
+            }
+
+            // Populate order items
+            orderItemsContainer.innerHTML = cart.map(item => `
+                <div class="order-item">
+                    <img src="${item.image}" alt="${item.name}">
+                    <div class="order-item-details">
+                        <div class="order-item-name">${item.name}</div>
+                        <div class="order-item-quantity">Quantity: ${item.quantity}</div>
+                    </div>
+                    <div class="order-item-price">₹${item.price * item.quantity}</div>
+                </div>
+            `).join('');
+
+            // Calculate and display totals
+            const totals = calculateCartTotals(cart);
+            if (itemsTotalSpan) itemsTotalSpan.textContent = `₹${totals.subtotal}`;
+            if (deliveryFeeSpan) deliveryFeeSpan.textContent = `₹${totals.deliveryFee}`;
+            if (taxesSpan) taxesSpan.textContent = `₹${totals.taxes}`;
+            if (totalAmountSpan) totalAmountSpan.textContent = `₹${totals.total}`;
+
+            // Display estimated delivery time
+            estimatedDeliveryTimeSpan.textContent = calculateEstimatedDeliveryTime(cart);
+
+            // Populate delivery address
+            const deliveryAddress = order.deliveryAddress;
+
+            if (deliveryAddress && deliveryAddressCard) {
+                deliveryAddressCard.innerHTML = `
+                    <span class="address-type"><i class="fas fa-home"></i> ${deliveryAddress.type.charAt(0).toUpperCase() + deliveryAddress.type.slice(1)}</span>
+                    <div class="address-info">
+                        <p><strong>${deliveryAddress.name}</strong> • ${deliveryAddress.phone}</p>
+                        <p>${deliveryAddress.address}</p>
+                        ${deliveryAddress.landmark ? `<p>Landmark: ${deliveryAddress.landmark}</p>` : ''}
+                        <p>Pincode: ${deliveryAddress.pincode}</p>
+                        <p>${deliveryAddress.city}, ${deliveryAddress.state}</p>
+                    </div>
+                `;
+            } else if (deliveryAddressCard) {
+                deliveryAddressCard.innerHTML = '<p>No delivery address provided.</p>';
+            }
+
+            // Back to home button logic
+            if (backToHomeBtn) {
+                backToHomeBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    // Clear currentOrder from localStorage when going back to home
+                    localStorage.removeItem('currentOrder');
+                    window.location.href = 'index.html'; // Go back to the main page
+                });
+            }
+        });
+    </script>
 </body>
 </html> 

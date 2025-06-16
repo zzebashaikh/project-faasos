@@ -1,3 +1,5 @@
+console.log("script.js loaded!");
+
 // Initialize AOS (Animate On Scroll)
 AOS.init({
     duration: 800,
@@ -192,6 +194,7 @@ const menuData = {
 
 // Cart Management
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
+console.log("Initial cart state from localStorage:", cart);
 
 // DOM Elements
 const elements = {
@@ -277,9 +280,11 @@ function initializeEventListeners() {
 
     // Add to Cart Buttons - Event delegation for dynamically added elements
     document.addEventListener('click', function(e) {
-        if (e.target.classList.contains('add-to-cart-btn')) {
-            e.preventDefault(); // Prevent default if it's a form button or link
-            const itemId = e.target.dataset.itemId; // Use data-item-id
+        // Check if the clicked element or any of its ancestors has a class containing 'add-to-cart-btn'
+        const addToCartButton = e.target.closest('.add-to-cart-btn');
+        if (addToCartButton) {
+            e.preventDefault();
+            const itemId = addToCartButton.dataset.itemId;
             addToCart(itemId);
         } 
     });
@@ -315,6 +320,7 @@ function initializeEventListeners() {
     const checkoutBtn = elements.checkoutBtn;
     if (checkoutBtn) {
         checkoutBtn.addEventListener('click', handleCheckout);
+        console.log("[initializeEventListeners] Checkout button listener attached.");
     }
 
     // Mobile Menu Toggle
@@ -396,8 +402,20 @@ function initializeEventListeners() {
 
     // Cart Toggle and Close Button
     if (elements.cartToggle && elements.cartSidebar) {
+        console.log('Cart toggle and sidebar elements found');
         elements.cartToggle.addEventListener('click', toggleCart);
-        elements.cartClose.addEventListener('click', toggleCart);
+        
+        if (elements.cartClose) {
+            console.log('Cart close button found, adding click listener');
+            elements.cartClose.addEventListener('click', function(e) {
+                console.log('Cart close button clicked');
+                e.preventDefault();
+                e.stopPropagation();
+                toggleCart();
+            });
+        } else {
+            console.error('Cart close button not found!');
+        }
     
         // Close cart when clicking outside
         document.addEventListener('click', (e) => {
@@ -407,6 +425,8 @@ function initializeEventListeners() {
                 toggleCart();
             }
         });
+    } else {
+        console.error('Cart toggle or sidebar elements not found!');
     }
 
     listenersInitialized = true; // Set the flag after all listeners are set
@@ -627,18 +647,18 @@ function toggleCart() {
 }
 
 function addToCart(itemId) {
-    console.log(`Attempting to add item: ${itemId} to cart.`);
+    console.log(`[addToCart] Attempting to add item: ${itemId} to cart.`);
     const existingItemIndex = cart.findIndex(item => item.id === itemId);
 
     if (existingItemIndex > -1) {
         // Item already in cart, increment quantity
         cart[existingItemIndex].quantity++;
-        console.log(`Incremented quantity for existing item: ${itemId}. New quantity: ${cart[existingItemIndex].quantity}`);
+        console.log(`[addToCart] Incremented quantity for existing item: ${itemId}. New quantity: ${cart[existingItemIndex].quantity}`);
     } else {
         // Check if it's a combo
         const combo = menuData.combos.find(combo => combo.id === itemId);
         if (combo) {
-            console.log(`Found combo: ${combo.name}. Processing its constituent items.`);
+            console.log(`[addToCart] Found combo: ${combo.name}. Processing its constituent items.`);
             // Add combo items to cart
             combo.items.forEach(comboItem => {
                 const menuItem = findMenuItem(comboItem.id);
@@ -646,13 +666,13 @@ function addToCart(itemId) {
                     const existingComboItemIndex = cart.findIndex(item => item.id === menuItem.id);
                     if (existingComboItemIndex > -1) {
                         cart[existingComboItemIndex].quantity += comboItem.quantity;
-                        console.log(`Added ${comboItem.quantity} to existing combo sub-item: ${menuItem.name}. New quantity: ${cart[existingComboItemIndex].quantity}`);
+                        console.log(`[addToCart] Added ${comboItem.quantity} to existing combo sub-item: ${menuItem.name}. New quantity: ${cart[existingComboItemIndex].quantity}`);
                     } else {
                         cart.push({ ...menuItem, quantity: comboItem.quantity });
-                        console.log(`Added new combo sub-item: ${menuItem.name} with quantity: ${comboItem.quantity}`);
+                        console.log(`[addToCart] Added new combo sub-item: ${menuItem.name} with quantity: ${comboItem.quantity}`);
                     }
                 } else {
-                    console.warn(`Could not find menu item for combo sub-item ID: ${comboItem.id}`);
+                    console.warn(`[addToCart] Could not find menu item for combo sub-item ID: ${comboItem.id}`);
                 }
             });
         } else {
@@ -660,18 +680,19 @@ function addToCart(itemId) {
             const itemToAdd = findMenuItem(itemId);
             if (itemToAdd) {
                 cart.push({ ...itemToAdd, quantity: 1 });
-                console.log(`Added new regular item: ${itemToAdd.name} with quantity: 1`);
+                console.log(`[addToCart] Added new regular item: ${itemToAdd.name} with quantity: 1`);
             } else {
-                console.warn(`Could not find regular menu item for ID: ${itemId}`);
+                console.warn(`[addToCart] Could not find regular menu item for ID: ${itemId}`);
             }
         }
     }
+    console.log(`[addToCart] Current cart state:`, cart);
     updateCart();
     showNotification(`${findMenuItem(itemId)?.name || 'Combo'} added to cart!`);
 }
 
 function findMenuItem(itemId) {
-    console.log(`Searching for menu item with ID: ${itemId}`);
+    console.log(`[findMenuItem] Searching for menu item with ID: ${itemId}`);
     for (const brand in menuData) {
         const item = menuData[brand].find(item => item.id === itemId);
         if (item) {
@@ -714,19 +735,20 @@ function calculateCartTotals() {
 
 // Function to update cart UI
 function updateCart() {
-    console.log("updateCart - Cart content:", cart);
+    console.log("[updateCart] Updating cart UI and saving to localStorage. Cart content:", cart);
 
     const cartItems = elements.cartItems;
     const cartCount = elements.cartCount;
     const checkoutBtn = elements.checkoutBtn;
     
     if (!cartItems || !cartCount || !checkoutBtn || !elements.totalAmount) {
-        console.error("One or more cart UI elements not found. Cannot update cart.");
+        console.error("[updateCart] One or more cart UI elements not found. Cannot update cart.");
         return;
     }
 
     // Save cart to localStorage
     localStorage.setItem('cart', JSON.stringify(cart));
+    console.log("[updateCart] Cart saved to localStorage:", localStorage.getItem('cart'));
 
     if (cart.length === 0) {
         cartItems.innerHTML = '<div class="empty-cart-message">Your cart is empty</div>';
@@ -735,7 +757,7 @@ function updateCart() {
         checkoutBtn.disabled = true;
         checkoutBtn.textContent = 'Checkout';
         elements.totalAmount.textContent = '₹0'; // Ensure total displays 0 when cart is empty
-        console.log("updateCart - Cart is empty, total set to ₹0.");
+        console.log("[updateCart] Cart is empty, UI updated accordingly.");
         return;
     }
 
@@ -747,11 +769,11 @@ function updateCart() {
     cartCount.style.display = 'flex'; // Show the counter when cart has items
     checkoutBtn.disabled = false;
     checkoutBtn.textContent = `Checkout • ₹${totals.total}`;
-    console.log("updateCart - Checkout button text set to:", checkoutBtn.textContent);
+    console.log("[updateCart] Checkout button text set to:", checkoutBtn.textContent);
 
     // Update the total amount displayed in the footer
     elements.totalAmount.textContent = `₹${totals.total}`;
-    console.log("updateCart - Footer total amount set to:", elements.totalAmount.textContent);
+    console.log("[updateCart] Footer total amount set to:", elements.totalAmount.textContent);
 
     // Update cart items
     cartItems.innerHTML = cart.map(item => `
@@ -801,29 +823,35 @@ function updateCart() {
 
 // Function to handle checkout
 function handleCheckout() {
-    if (cart.length === 0) return;
+    if (cart.length === 0) {
+        console.warn("[handleCheckout] Cart is empty, cannot proceed to checkout.");
+        showNotification('Your cart is empty. Please add items to checkout.');
+        return;
+    }
 
-    // Create order object
+    // Create order object from current cart
     const order = {
-        id: 'ORD' + Date.now(),
-        items: cart,
+        id: 'ORD' + Date.now(), // Unique order ID
+        items: cart, // Current items in the cart
         timestamp: new Date().toISOString(),
-        status: 'Order Placed',
-        deliveryTime: calculateEstimatedDeliveryTime(cart),
-        ...calculateCartTotals()
+        status: 'Order Placed', // Initial status
+        deliveryTime: calculateEstimatedDeliveryTime(cart), // Calculate estimated time
+        ...calculateCartTotals() // Include subtotal, deliveryFee, taxes, total
     };
-    console.log("handleCheckout - Order object created:", order);
+    console.log("[handleCheckout] Order object created:", order);
 
-    // Store order in localStorage
+    // Store the complete order in localStorage under 'currentOrder'
     localStorage.setItem('currentOrder', JSON.stringify(order));
-    console.log("handleCheckout - Order stored in localStorage.");
+    console.log("[handleCheckout] Order stored in localStorage under 'currentOrder'.");
 
-    // Clear cart
-    cart = [];
-    localStorage.removeItem('cart');
-    updateCart();
+    // Clear the cart after creating the order
+    cart = []; // Empty the cart array
+    localStorage.removeItem('cart'); // Remove cart from localStorage
+    updateCart(); // Update the cart UI (will show empty cart)
+    console.log("[handleCheckout] Cart cleared and updated.");
 
-    // Redirect to delivery address page
+    // Redirect to the delivery address page
+    console.log("[handleCheckout] Redirecting to delivery address page...");
     window.location.href = 'delivery-address.html';
 }
 
